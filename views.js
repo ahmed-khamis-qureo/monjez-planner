@@ -10,8 +10,8 @@ const header = (title, sub) => h('header', { class: 'view-head' }, h('h1', null,
 function taskList(ctx) {
   const ul = h('ul', { class: 'tasks', role: 'list' });
   let sig = '';
-  return { el: ul, render(tasks, today, empty) {
-    const s = JSON.stringify(tasks) + today; if (s === sig) return; sig = s;
+  return { el: ul, render(tasks, today, empty, extra = '') {
+    const s = JSON.stringify(tasks) + today + extra; if (s === sig) return; sig = s;
     clear(ul);
     if (!tasks.length) { ul.append(h('li', { class: 'empty-li' }, empty)); return; }
     tasks.forEach((t) => ul.append(taskRow(t, ctx, today)));
@@ -56,7 +56,7 @@ export function tasksView(ctx) {
     h('button', { class: 'fab', type: 'button', 'aria-label': 'مهمة جديدة', onclick: () => ctx.editTask(null) }, icon('plus', 26)));
   return { el, update(s) {
     const today = dateKey(), items = visibleTasks(s, filter, query, today);
-    list.render(items, today + filter + query, emptyState(query ? 'مفيش نتيجة' : 'القائمة فاضية', query ? 'جرّب كلمة تانية.' : 'دوس + وضيف أول مهمة.'));
+    list.render(items, today, emptyState(query ? 'مفيش نتيجة' : 'القائمة فاضية', query ? 'جرّب كلمة تانية.' : 'دوس + وضيف أول مهمة.'), filter + query);
     const open = s.tasks.filter((t) => !t.done).length;
     count.textContent = `${n(open)} مهمة مفتوحة من ${n(s.tasks.length)}`;
   } };

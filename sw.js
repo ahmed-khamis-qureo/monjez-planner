@@ -1,4 +1,4 @@
-const VERSION = 'monjez-v1';
+const VERSION = 'monjez-v2';
 const ASSETS = ['./', './index.html', './styles.css', './main.js', './store.js', './timer.js', './ui.js', './utils.js', './views.js', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon.svg'];
 self.addEventListener('install', (e) => e.waitUntil(caches.open(VERSION).then((c) => c.addAll(ASSETS))));
 self.addEventListener('activate', (e) => e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim())));
